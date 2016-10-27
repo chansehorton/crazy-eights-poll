@@ -1,0 +1,40 @@
+nav ul a,
+nav .brand-logo {
+  color: #444;
+  margin-left: .2em;
+}
+
+nav .nav-wrapper {
+  width: 100%;
+}
+
+p {
+  line-height: 2rem;
+}
+
+i {
+  vertical-align: middle;
+}
+
+h5 .left-align {
+  padding-left: 10px;
+}
+
+.button-collapse {
+  color: #26a69a;
+}
+
+.item-desc {
+  font-size: 1.5rem;
+}
+
+.icon-block {
+  padding: 0 15px;
+}
+.icon-block .material-icons {
+  font-size: inherit;
+}
+
+footer.page-footer {
+  margin: 0;
+}
