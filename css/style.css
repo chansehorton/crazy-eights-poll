@@ -23,8 +23,12 @@ h5 .left-align {
 textarea {
   border: 3px solid #BADA55;
   border-radius: 10px;
-  min-height: 60px;
+  text-align: center;
   resize: none;
+}
+
+.page-footer {
+  margin: 0;
 }
 
 .button-collapse {
@@ -38,10 +42,18 @@ textarea {
 .icon-block {
   padding: 0 15px;
 }
+
 .icon-block .material-icons {
   font-size: inherit;
 }
 
-footer.page-footer {
+.poll-item {
+  font-size: 25px;
   margin: 0;
+  min-height: 30px;
+}
+
+.section {
+  border-radius: 10px;
+  margin: 10px;
 }
