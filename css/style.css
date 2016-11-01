@@ -31,6 +31,10 @@ textarea {
   margin: 0;
 }
 
+.top-row {
+  margin: 5px;
+}
+
 .button-collapse {
   color: #26a69a;
 }
@@ -45,6 +49,11 @@ textarea {
 
 .icon-block .material-icons {
   font-size: inherit;
+}
+
+.poll-item-med {
+  height: 25%;
+  font-size: 16px;
 }
 
 .poll-item {
