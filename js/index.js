@@ -1,41 +1,59 @@
 'use strict';
 
-//'inputArray' is array of jQuery objects
-function filterFirstRound(inputJQOArray) {
-  var outputObjArray =[];
-  $.each(inputJQOArray, function() {
-    var searchReturn = {};
-    var searchTerm = ($(this).children().val());
-    var urlSearchString = 'http://g-bing.herokuapp.com/bing/v5.0/search?q=' + searchTerm;
+// if (indexCheckArray.length === 0) {
+//   var filteredArray = filterAnswers(outputObjArray);
+//   refactorDisplay(filteredArray);
+// };
+$.fn.shift = function () {
+  var x = this.eq(0);
+  this.splice(0,1);
+  return x;
+};
 
+//'inputJQOArray' is array of jQuery objects
+function filterFirstRound(inputJQOArray, outputObjArray) {
+  // set delay to ensure we never trip the APIs '5 per second' limit
+  var my_delay = 200;
+  //as long as array has elements, keep making API calls
+  if (inputJQOArray.length > 0) {
+    var searchReturn = {};
+    // get the next object and create the url
+    var searchTerm = inputJQOArray.first().children().val();
+    var urlSearchString = 'http://g-bing.herokuapp.com/bing/v5.0/search?q=' + searchTerm;
+    // remove the current object from the array
+    inputJQOArray.shift();
+    //make the ajax call
     $.ajax({
       url: urlSearchString,
-      headers: {
-          'Ocp-Apim-Subscription-Key': '7e03310d1c484161a53c9b85033536d3'
-      },
       method: 'GET',
-      dataType: 'json',
       data: {
         count: '1',
         mkt: 'en-us'
       },
-      success: function(response) {
-        searchReturn.term = searchTerm;
-        searchReturn.hits = response.webPages.totalEstimatedMatches;
-        outputObjArray.push(searchReturn);
-        console.dir(outputObjArray);
-        refactorDisplay(outputObjArray);
+      dataType: 'json',
+      headers: {
+        'Ocp-Apim-Subscription-Key': '7e03310d1c484161a53c9b85033536d3'
       },
-      error: function(response) {
+      success: function(data) {
+        //create object and add to output array
+        searchReturn.term = searchTerm;
+        searchReturn.hits = data.webPages.totalEstimatedMatches;
+        outputObjArray.push(searchReturn);
+        //delay before calling API again
+        setTimeout(filterFirstRound, my_delay, inputJQOArray, outputObjArray);
+      },
+      error: function(data) {
         console.log('ERROR: ' + searchTerm);
       }
     });
-  });
-  // console.dir(outputObjArray);
-  // return outputObjArray;
-};
+  } else {
+    //now that all calls have been made, filter the results and refactor the display
+    var filteredArray = filterAnswers(outputObjArray);
+    refactorDisplay(filteredArray);
+  }
+}
 
-
+//orders array from highest to lowest number of hits
 function compare(a,b) {
   if (a.hits > b.hits)
     {return -1;}
@@ -44,19 +62,22 @@ function compare(a,b) {
   return 0;
 };
 
+//returns array with top half of answers
 function filterAnswers(answerArray) {
   var outputArray = [];
   if (answerArray.length>4) {
     answerArray.sort(compare);
     outputArray = answerArray.slice(0,4);
   } else {
-    //do a sort to throw out two arrays -- below we are arbitrarily removing 2 for testing.
+    //NOTE: do a sort for 2 -- below we are arbitrarily removing 2 for testing.
     outputArray = answerArray.slice(0,2);
   };
   return outputArray;
 };
 
+//refactors the display for 2 or 4 answers
 function refactorDisplay(array) {
+  console.dir(array);
   $('#poll_items').children().children().not('.button').remove();
 
   if (array.length>2) {
@@ -114,46 +135,16 @@ $(document).ready(function() {
 
   $('#submit_button').click(function(e) {
     e.preventDefault();
-    // var pollItemsJQOBatch2 = $('#poll_items').children().children().not('.button');
-    // var pollItemsJQOBatch1 = pollItemsJQOBatch2.splice(0,4);
 
-    var testArray = [];
+    //NOTE: refactor this using closure
 
+    var outputArray = [];
 
     var pollItems = $('#poll_items').children().children().not('.button');
-    var pollItemsJQOBatch1 = pollItems.slice(0,1);
-    // var pollItemsJQOBatch2 = pollItems.slice(1,2);
-    filterFirstRound(pollItemsJQOBatch1);
-    // function staggeredCall() {
-    //
-    //   var prom1 = new Promise(function(resolve){
-    //     resolve(filterFirstRound(pollItemsJQOBatch1));
-    //   });
-    //
-    //   prom1.then(function(result1){
-    //     console.dir('inside prom1: ', result1);
-    //     testTimeout(result1);
-    //   });
-    //
-    //   function testTimeout(result1){
-    //     setTimeout(function(){
-    //       var prom2 = new Promise(function(resolve){
-    //         console.dir('inside prom2: ', result1);
-    //         resolve(filterFirstRound(pollItemsJQOBatch2));
-    //       });
-    //
-    //       prom2.then(function(result2){
-    //         console.dir("data returned from prom2:", result2);
-    //       });
-    //     },1000);
-    //   };
-    // };
 
-    // staggeredCall();
+    // var pollItemsTemp = pollItems.slice(0,2);
 
-    // var outArray = filterAnswers(testArray);
-    //
-    // refactorDisplay(outArray);
+    filterFirstRound(pollItems, outputArray);
   });
 });
 

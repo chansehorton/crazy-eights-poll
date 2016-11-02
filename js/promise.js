@@ -1,3 +1,30 @@
+// function staggeredCall() {
+//
+//   var prom1 = new Promise(function(resolve){
+//     resolve(filterFirstRound(pollItemsJQOBatch1));
+//   });
+//
+//   prom1.then(function(result1){
+//     console.dir('inside prom1: ', result1);
+//     testTimeout(result1);
+//   });
+//
+//   function testTimeout(result1){
+//     setTimeout(function(){
+//       var prom2 = new Promise(function(resolve){
+//         console.dir('inside prom2: ', result1);
+//         resolve(filterFirstRound(pollItemsJQOBatch2));
+//       });
+//
+//       prom2.then(function(result2){
+//         console.dir("data returned from prom2:", result2);
+//       });
+//     },1000);
+//   };
+// };
+
+// staggeredCall();
+
 // function getExample() {
 //   var filteredResults1 = new Promise(function(resolve) {
 //     return filterFirstRound(pollItemsJQOBatch1);
