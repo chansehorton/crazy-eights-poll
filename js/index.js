@@ -135,9 +135,9 @@ function filterAnswers(answerArray) {
 };
 
 //refactors the display for 2 or 4 answers
-//NOTE: move the 'remove' bit to the on click function, to make it clearer to the user that something is actually happening
 function refactorDisplay(array) {
-  console.log(array);
+
+  $('#poll_items').children().remove();
 
   $('#poll_items').first().prepend('<div id="col_1" class="col s10 m6 offset-s1"></div><div id="col_2" class="col s10 m6 offset-s1"></div>');
 
@@ -204,12 +204,10 @@ $(document).ready(function() {
   $('#submit_button').click(function(e) {
     e.preventDefault();
 
-    //NOTE: refactor this using closure
+    //NOTE: refactor this using closure??
 
     var outputArray = [];
     finalCompArray = [];
-
-    //NOTE: need to modify pollItems for 4 textareas (the DOM structure differs from the initial 8 textarea state)
 
     var pollItems = $('#poll_items').children().children().children();
     var pollItemArray = [];
@@ -220,12 +218,20 @@ $(document).ready(function() {
 
     $('#poll_items').children().remove();
 
+    $('#poll_items').append('<div class="progress cyan darken-1"><div class="indeterminate cyan lighten-4"></div></div>');
+
     if (pollItemArray.length > 4) {
       filterFirstRound(pollItemArray, outputArray);
-      // refactorDisplay(filterAnswers(testArray1));
+      // *** testing functionality
+      // setTimeout(function() {
+      //   refactorDisplay(filterAnswers(testArray1));
+      // },10000);
     } else {
       filterSecondRound(pollItemArray);
-      // refactorDisplay(filterAnswers(testArray2));
+      // *** testing functionality
+      // setTimeout(function() {
+      //   refactorDisplay(filterAnswers(testArray2));
+      // },10000);
     };
   });
 });
