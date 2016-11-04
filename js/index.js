@@ -33,7 +33,7 @@ function filterFirstRound(inputArray, outputObjArray, inputText) {
         //delay before calling API again
         setTimeout(filterFirstRound, my_delay, inputArray, outputObjArray, inputText);
       },
-      error: function(data) {
+      error: function() {
         console.log('ERROR: ' + searchTerm);
       }
     });
@@ -137,26 +137,24 @@ function filterAnswers(answerArray) {
 //refactors the display for 2 or 4 answers
 //NOTE: move the 'remove' bit to the on click function, to make it clearer to the user that something is actually happening
 function refactorDisplay(array) {
+  console.log(array);
+
+  $('#poll_items').first().prepend('<div id="col_1" class="col s10 m6 offset-s1"></div><div id="col_2" class="col s10 m6 offset-s1"></div>');
 
   if (array.length>2) {
-    $('#poll_items').children().removeClass('l6 offset-l3').addClass('l10 offset-l1');
-    $('#poll_items').children().first().prepend('<div class="row top-row"></div><div class="row bottom-row"></div>');
-
     for (var i=0;i<array.length;i++) {
       if (i<2) {
-        $('.top-row').append('<div class="col l5 m5 s10 push-l1 push-m1 push-s1"><textarea class="poll-item-med" cols="30" rows="10">' +  array[i].term + '</textarea></div>');
+        $('#col_1').append('<div class="card-panel cyan darken-1"><textarea class="poll-item-med white-text" cols="30" rows="6">' +  array[i].term + '</textarea></div>');
       } else {
-        $('.bottom-row').append('<div class="col l5 m5 s10 push-l1 push-m1 push-s1"><textarea class="poll-item-med" cols="30" rows="10">' +  array[i].term + '</textarea></div>');
+        $('#col_2').append('<div class="card-panel cyan darken-1"><textarea class="poll-item-med white-text" cols="30" rows="6">' +  array[i].term + '</textarea></div>');
       };
     };
   } else {
-    $('#poll_items').children().first().prepend('<div class="row top-row">');
-
     for (var j=0;j<array.length;j++) {
       if (j<1) {
-        $('.top-row').append('<div class="col l5 m5 s10 push-l1 push-m1 push-s1"><textarea class="poll-item-med" cols="30" rows="10">' +  array[j].term + '</textarea></div>');
+        $('#col_1').append('<div class="card-panel cyan darken-1"><textarea class="poll-item-large white-text" cols="30" rows="6">' +  array[j].term + '</textarea></div>');
       } else {
-        $('.top-row').append('<div class="col l5 m5 s10 push-l1 push-m1 push-s1"><textarea class="poll-item-med" cols="30" rows="10">' +  array[j].term + '</textarea></div>');
+        $('#col_2').append('<div class="card-panel cyan darken-1"><textarea class="poll-item-large white-text" cols="30" rows="6">' +  array[j].term + '</textarea></div>');
       };
     };
   };
@@ -213,24 +211,19 @@ $(document).ready(function() {
 
     //NOTE: need to modify pollItems for 4 textareas (the DOM structure differs from the initial 8 textarea state)
 
-    var pollItems = $('#poll_items').children().children().not('.button');
+    var pollItems = $('#poll_items').children().children().children();
     var pollItemArray = [];
 
-    if (pollItems.length > 4) {
-      $.each(pollItems, function() {
-        pollItemArray.push($(this).children().val());
-      });
-      $('#poll_items').children().children().not('.button').remove();
+    $.each(pollItems, function() {
+      pollItemArray.push($(this).val());
+    });
+
+    $('#poll_items').children().remove();
+
+    if (pollItemArray.length > 4) {
       filterFirstRound(pollItemArray, outputArray);
       // refactorDisplay(filterAnswers(testArray1));
     } else {
-      $.each(pollItems, function() {
-        var row = $(this).children().children();
-        $.each(row, function() {
-          pollItemArray.push($(this).val());
-        });
-      });
-      $('#poll_items').children().children().not('.button').remove();
       filterSecondRound(pollItemArray);
       // refactorDisplay(filterAnswers(testArray2));
     };
