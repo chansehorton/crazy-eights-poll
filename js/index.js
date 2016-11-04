@@ -145,9 +145,7 @@ function refactorDisplay(array) {
 
   $('#poll_items').first().prepend('<div id="col_1" class="col s10 m6 offset-s1"></div><div id="col_2" class="col s10 m6 offset-s1"></div>');
 
-  // if (array.length>2) {
-  console.log(array);
-  console.log(array[0].term.length);
+// on first pass, simply display the four top results, on second round, display all four inputs, but highlight the cards of the ones with the top two aggregate hits
   if (array[0].term.length <= 30) {
     for (var i=0;i<array.length;i++) {
       if (i<2) {
@@ -175,57 +173,49 @@ function refactorDisplay(array) {
       };
     };
   };
-  // } else {
-  //   for (var j=0;j<array.length;j++) {
-  //     if (j<1) {
-  //       $('#col_1').append('<div class="card-panel cyan darken-1"><textarea class="poll-item-large white-text" cols="30" rows="6">' +  array[j].term + '</textarea></div>');
-  //     } else {
-  //       $('#col_2').append('<div class="card-panel cyan darken-1"><textarea class="poll-item-large white-text" cols="30" rows="6">' +  array[j].term + '</textarea></div>');
-  //     };
-  //   };
-  // };
 }
 
 
 $(document).ready(function() {
 
-  var testArray1 = [
-    {term: 'crazy eights',
-     hits: 1},
-    {term: 'forward unto the breach',
-     hits: 2},
-    {term: 'carousel',
-     hits: 3},
-    {term: 'blue sock removal',
-     hits: 4},
-    {term: 'subjugated shoehorn',
-     hits: 5},
-    {term: 'yellow submarine',
-     hits: 6},
-    {term: 'carpet cleaning',
-     hits: 7},
-    {term: 'fallujah supply management',
-     hits: 8}
-  ];
-
-  var testArray2 = [
-    {
-    hits: 1,
-    term: "In the beginning it was too far away for Shadow to focus on. Then it became a distant beam of hope, and he learned how to tell himself 'this too shall pass' when the prison shit went down, as prison shit always did. One day the magic door would open and he'd walk through it. So he marked off the days on his Songbirds of North America calendar, which was the only calendar they sold in the prison commissary, and the sun went down and he didn't see it and the sun came up and he didn't see it. He practiced coin tricks from a book he found in the wasteland of the prison library; and he worked out; and he made lists in his head of what he'd do when he got out of prison."
-    },
-    {
-      hits: 2,
-      term: "Through the gap in the wall can be seen a large green meadow; beyond the meadow, a stream; and beyond the stream there are trees. From time to time shapes and figures can be seen, amongst the trees, in the distance. Huge shapes and odd shapes and small, glimmering things which flash and glitter and are gone. Although it is perfectly good meadowland, none of the villagers has ever grazed animals on the meadow on the other side of the wall. Nor have they used it for growing crops."
-    },
-    {
-      hits: 3,
-      term: "It was a city in which the very old and the awkwardly new jostled each other, not uncomfortably, but without respect; a city of shops and offices and restaurants and homes, of parks and churches, of ignored monuments and remarkably unpalatial palaces; a city of hundreds of districts with strange names -- Crouch End, Chalk Farm, Earl's Court, Marble Arch -- and oddly distinct identities; a noisy, dirty, cheerful, troubled city, which fed on tourists, needed them as it despised them, in which the average speed of transportation through the city had not increased in three hundred years, following five hundred years of fitful road-widening and unskillful compromises between the needs of traffic, whether horse-drawn, or, more recently, motorized, and the needs of pedestrians; a city inhabited by and teeming with people of every color and manner and kind."
-    },
-    {
-      hits: 4,
-      term: "Before Fat Charlie's father had come into the bar, the barman had been of the opinion that the whole Karaoke evening was going to be an utter bust. But then the little old man had sashayed into the room, walked past the table of several blonde women, with the fresh sunburns and smiles of tourists, who were sitting by the little makeshift stage in the corner. He had tipped his hat to them, for he wore a hat, a spotless white fedora, and lemon-yellow gloves, and then he walked over to their table. They giggled."
-    }
-  ];
+//test arrays to save API calls during testing
+  // var testArray1 = [
+  //   {term: 'crazy eights',
+  //    hits: 1},
+  //   {term: 'forward unto the breach',
+  //    hits: 2},
+  //   {term: 'carousel',
+  //    hits: 3},
+  //   {term: 'blue sock removal',
+  //    hits: 4},
+  //   {term: 'subjugated shoehorn',
+  //    hits: 5},
+  //   {term: 'yellow submarine',
+  //    hits: 6},
+  //   {term: 'carpet cleaning',
+  //    hits: 7},
+  //   {term: 'fallujah supply management',
+  //    hits: 8}
+  // ];
+  //
+  // var testArray2 = [
+  //   {
+  //   hits: 1,
+  //   term: "In the beginning it was too far away for Shadow to focus on. Then it became a distant beam of hope, and he learned how to tell himself 'this too shall pass' when the prison shit went down, as prison shit always did. One day the magic door would open and he'd walk through it. So he marked off the days on his Songbirds of North America calendar, which was the only calendar they sold in the prison commissary, and the sun went down and he didn't see it and the sun came up and he didn't see it. He practiced coin tricks from a book he found in the wasteland of the prison library; and he worked out; and he made lists in his head of what he'd do when he got out of prison."
+  //   },
+  //   {
+  //     hits: 2,
+  //     term: "Through the gap in the wall can be seen a large green meadow; beyond the meadow, a stream; and beyond the stream there are trees. From time to time shapes and figures can be seen, amongst the trees, in the distance. Huge shapes and odd shapes and small, glimmering things which flash and glitter and are gone. Although it is perfectly good meadowland, none of the villagers has ever grazed animals on the meadow on the other side of the wall. Nor have they used it for growing crops."
+  //   },
+  //   {
+  //     hits: 3,
+  //     term: "It was a city in which the very old and the awkwardly new jostled each other, not uncomfortably, but without respect; a city of shops and offices and restaurants and homes, of parks and churches, of ignored monuments and remarkably unpalatial palaces; a city of hundreds of districts with strange names -- Crouch End, Chalk Farm, Earl's Court, Marble Arch -- and oddly distinct identities; a noisy, dirty, cheerful, troubled city, which fed on tourists, needed them as it despised them, in which the average speed of transportation through the city had not increased in three hundred years, following five hundred years of fitful road-widening and unskillful compromises between the needs of traffic, whether horse-drawn, or, more recently, motorized, and the needs of pedestrians; a city inhabited by and teeming with people of every color and manner and kind."
+  //   },
+  //   {
+  //     hits: 4,
+  //     term: "Before Fat Charlie's father had come into the bar, the barman had been of the opinion that the whole Karaoke evening was going to be an utter bust. But then the little old man had sashayed into the room, walked past the table of several blonde women, with the fresh sunburns and smiles of tourists, who were sitting by the little makeshift stage in the corner. He had tipped his hat to them, for he wore a hat, a spotless white fedora, and lemon-yellow gloves, and then he walked over to their table. They giggled."
+  //   }
+  // ];
 
   $('#submit_button').click(function(e) {
     e.preventDefault();
@@ -247,17 +237,17 @@ $(document).ready(function() {
     $('#poll_items').append('<div class="progress cyan darken-1"><div class="indeterminate cyan lighten-4"></div></div>');
 
     if (pollItemArray.length > 4) {
-      // filterFirstRound(pollItemArray, outputArray);
+      filterFirstRound(pollItemArray, outputArray);
       // *** testing functionality
-      setTimeout(function() {
-        refactorDisplay(filterAnswers(testArray1));
-      }, 5000);
+      // setTimeout(function() {
+      //   refactorDisplay(filterAnswers(testArray1));
+      // }, 5000);
     } else {
-      // filterSecondRound(pollItemArray);
+      filterSecondRound(pollItemArray);
       // *** testing functionality
-      setTimeout(function() {
-        refactorDisplay(filterAnswers(testArray2));
-      }, 5000);
+      // setTimeout(function() {
+      //   refactorDisplay(filterAnswers(testArray2));
+      // }, 5000);
     };
   });
 });
