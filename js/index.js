@@ -124,13 +124,17 @@ function compare(a,b) {
 //returns array with top half of answers
 function filterAnswers(answerArray) {
   var outputArray = [];
+  console.log(answerArray);
 
   answerArray.sort(compare);
   if (answerArray.length>4) {
     outputArray = answerArray.slice(0,4);
   } else {
-    outputArray = answerArray.slice(0,2);
-  };
+    outputArray = answerArray;
+  }
+  // else {
+  //   outputArray = answerArray.slice(0,2);
+  // };
   return outputArray;
 };
 
@@ -141,7 +145,10 @@ function refactorDisplay(array) {
 
   $('#poll_items').first().prepend('<div id="col_1" class="col s10 m6 offset-s1"></div><div id="col_2" class="col s10 m6 offset-s1"></div>');
 
-  if (array.length>2) {
+  // if (array.length>2) {
+  console.log(array);
+  console.log(array[0].term.length);
+  if (array[0].term.length <= 30) {
     for (var i=0;i<array.length;i++) {
       if (i<2) {
         $('#col_1').append('<div class="card-panel cyan darken-1"><textarea class="poll-item-med white-text" cols="30" rows="6">' +  array[i].term + '</textarea></div>');
@@ -150,14 +157,33 @@ function refactorDisplay(array) {
       };
     };
   } else {
+    document.getElementById('submit_button').setAttribute("disabled","true");
     for (var j=0;j<array.length;j++) {
-      if (j<1) {
-        $('#col_1').append('<div class="card-panel cyan darken-1"><textarea class="poll-item-large white-text" cols="30" rows="6">' +  array[j].term + '</textarea></div>');
-      } else {
-        $('#col_2').append('<div class="card-panel cyan darken-1"><textarea class="poll-item-large white-text" cols="30" rows="6">' +  array[j].term + '</textarea></div>');
+      switch(j) {
+        case 0:
+          $('#col_1').append('<div class="card-panel green"><textarea class="poll-item-med white-text" cols="30" rows="6">' +  array[j].term + '</textarea></div>');
+          break;
+        case 1:
+          $('#col_2').append('<div class="card-panel green"><textarea class="poll-item-med white-text" cols="30" rows="6">' +  array[j].term + '</textarea></div>');
+          break;
+        case 2:
+          $('#col_1').append('<div class="card-panel cyan darken-1"><textarea class="poll-item-med white-text" cols="30" rows="6">' +  array[j].term + '</textarea></div>');
+          break;
+        case 3:
+          $('#col_2').append('<div class="card-panel cyan darken-1"><textarea class="poll-item-med white-text" cols="30" rows="6">' +  array[j].term + '</textarea></div>');
+          break;
       };
     };
   };
+  // } else {
+  //   for (var j=0;j<array.length;j++) {
+  //     if (j<1) {
+  //       $('#col_1').append('<div class="card-panel cyan darken-1"><textarea class="poll-item-large white-text" cols="30" rows="6">' +  array[j].term + '</textarea></div>');
+  //     } else {
+  //       $('#col_2').append('<div class="card-panel cyan darken-1"><textarea class="poll-item-large white-text" cols="30" rows="6">' +  array[j].term + '</textarea></div>');
+  //     };
+  //   };
+  // };
 }
 
 
@@ -221,17 +247,17 @@ $(document).ready(function() {
     $('#poll_items').append('<div class="progress cyan darken-1"><div class="indeterminate cyan lighten-4"></div></div>');
 
     if (pollItemArray.length > 4) {
-      filterFirstRound(pollItemArray, outputArray);
+      // filterFirstRound(pollItemArray, outputArray);
       // *** testing functionality
-      // setTimeout(function() {
-      //   refactorDisplay(filterAnswers(testArray1));
-      // },10000);
+      setTimeout(function() {
+        refactorDisplay(filterAnswers(testArray1));
+      }, 5000);
     } else {
-      filterSecondRound(pollItemArray);
+      // filterSecondRound(pollItemArray);
       // *** testing functionality
-      // setTimeout(function() {
-      //   refactorDisplay(filterAnswers(testArray2));
-      // },10000);
+      setTimeout(function() {
+        refactorDisplay(filterAnswers(testArray2));
+      }, 5000);
     };
   });
 });
