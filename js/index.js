@@ -54,10 +54,10 @@ function filterFirstRound(inputArray, outputObjArray, inputText) {
       if (finalCompArray.length === 4) {
         var filteredArray2 = filterAnswers(finalCompArray);
         refactorDisplay(filteredArray2);
-      }
+      };
     };
-  }
-}
+  };
+};
 
 function arrayBuild(obj) {
   finalCompArray.push(obj);
@@ -95,7 +95,7 @@ function filterSecondRound(inputArray) {
         for (var j=0;j<formedData.length;j++) {
           if (formedData[j].id===Number(data.documents[i].id)) {
             formedData[j].keyPhrases = [data.documents[i].keyPhrases[0],data.documents[i].keyPhrases[1]];
-          }
+          };
         };
       };
       //we create unique output arrays to pass to filterFirstRound
@@ -131,7 +131,7 @@ function filterAnswers(answerArray) {
     outputArray = answerArray.slice(0,4);
   } else {
     outputArray = answerArray;
-  }
+  };
   // else {
   //   outputArray = answerArray.slice(0,2);
   // };
@@ -173,7 +173,7 @@ function refactorDisplay(array) {
       };
     };
   };
-}
+};
 
 
 $(document).ready(function() {
