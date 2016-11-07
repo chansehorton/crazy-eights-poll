@@ -18,6 +18,7 @@ Return the 4 ideas in larger textareas, and allow the user to expand on the idea
 Use Aylien or Watson to analyze the text for some number of keyword combinations, and pass each of those back to Bing Search API, aggregating the total hits for each keyword combination.
 Return the two ideas with the most aggregate hits.
 
+Link to deployed site: http://chansehorton.crazy-eights.surge.sh/
 Wireframes: https://github.com/chansehorton/crazy-eights-poll (wireframes located in screenshots folder)
 Pivotal: https://www.pivotaltracker.com/n/projects/1908391
 Retrospective: https://docs.google.com/spreadsheets/d/1y5wdE1OyInnB-yLE3Lkoy58f5sCS467_ZT8EUXaClSQ/edit?usp=sharing
