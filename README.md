@@ -20,3 +20,4 @@ Return the two ideas with the most aggregate hits.
 
 Wireframes: https://github.com/chansehorton/crazy-eights-poll (wireframes located in screenshots folder)
 Pivotal: https://www.pivotaltracker.com/n/projects/1908391
+Retrospective: https://docs.google.com/spreadsheets/d/1y5wdE1OyInnB-yLE3Lkoy58f5sCS467_ZT8EUXaClSQ/edit?usp=sharing
