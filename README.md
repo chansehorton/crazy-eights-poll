@@ -19,7 +19,11 @@ Use Aylien or Watson to analyze the text for some number of keyword combinations
 Return the two ideas with the most aggregate hits.
 
 Link to deployed site: http://chansehorton.crazy-eights.surge.sh/
+
 Wireframes: https://github.com/chansehorton/crazy-eights-poll (wireframes located in screenshots folder)
+
 Pivotal: https://www.pivotaltracker.com/n/projects/1908391
+
 Retrospective: https://docs.google.com/spreadsheets/d/1y5wdE1OyInnB-yLE3Lkoy58f5sCS467_ZT8EUXaClSQ/edit?usp=sharing
+
 Self-assessment: https://docs.google.com/document/d/1pHiu-hLbD6AxI5PycZiOt4cCD8duLf2lXrR-mD4rpUc/edit?usp=sharing
